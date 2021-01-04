@@ -1,0 +1,28 @@
+{
+    "name": "heroesofthestorm_s2ma",
+    "version": "1.0.0",
+    "description": "Extract S2MAs",
+    "main": "index.js",
+    "scripts": {
+        "start": "npm run extract:s2ma && npm run rename:maps && npm run commitpush",
+        "extract:s2ma": "bash -c -i \"node ./scripts/main/extracts2ma.js\"",
+        "rename:maps": "powershell -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -File renamer.ps1",
+        "commitpush": "powershell -NoLogo -NoProfile -File commit.ps1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jamiephan/HeroesOfTheStorm_S2MA.git"
+    },
+    "author": "Jamie Phan",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/jamiephan/HeroesOfTheStorm_S2MA/issues"
+    },
+    "homepage": "https://github.com/jamiephan/HeroesOfTheStorm_S2MA#readme",
+    "dependencies": {
+        "app-root-path": "^3.0.0",
+        "dotenv": "^8.2.0",
+        "storm-extract": "^1.0.3",
+        "tmp": "^0.2.1"
+    }
+}
