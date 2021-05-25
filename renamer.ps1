@@ -9,6 +9,9 @@ New-Item -ItemType Directory -Force -Path $s2madir | Out-Null
 New-Item -ItemType Directory -Force -Path $tempdir | Out-Null
 New-Item -ItemType Directory -Force -Path $mapdir | Out-Null
 
+Get-ChildItem -Path $tempdir -Include * -File -Recurse | ForEach-Object { $_.Delete()}
+Get-ChildItem -Path $mapdir -Include * -File -Recurse | ForEach-Object { $_.Delete()}
+
 $mpqesitor = Resolve-Path $mpqesitor
 $s2madir = Resolve-Path $s2madir
 $tempdir = Resolve-Path $tempdir
@@ -36,3 +39,8 @@ Get-ChildItem $s2madir | ForEach-Object -Process {getMapName(($_))}
 # Delete Dirs
 
 Remove-Item -Recurse $tempdir
+
+# Copy maps from extra_maps to maps
+
+Copy-Item -Path "./extra_maps/*.stormmap" -Destination $mapdir -Recurse
+
