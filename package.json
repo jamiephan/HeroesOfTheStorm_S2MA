@@ -6,7 +6,7 @@
     "scripts": {
         "start": "npm run extract:s2ma && npm run rename:maps && npm run commitpush",
         "extract:s2ma": "bash -c -i \"node ./scripts/main/extracts2ma.js\"",
-        "rename:maps": "powershell -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -File renamer.ps1",
+        "rename": "powershell -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -File renamer.ps1",
         "commitpush": "cmd /c git add -A && cmd /c git commit -m \"Updated S2MAs _ %random%\" && cmd /c git push"
     },
     "repository": {
