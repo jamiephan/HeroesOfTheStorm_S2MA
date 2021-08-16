@@ -24,13 +24,13 @@ jobs:
         with:
           distribution: Ubuntu-18.04
           additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
-      - shell: wsl-ash {0}
+      - shell: wsl-bash {0}
         run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
           export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           source ~/.bashrc
-      - shell: wsl-ash {0}
+      - shell: wsl-bash {0}
         run: |
           nvm install 10
           node -v
