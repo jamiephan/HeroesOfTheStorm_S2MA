@@ -29,7 +29,7 @@ jobs:
           distribution: Ubuntu-20.04
           additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
       - name: Setup WSL Environment
-        shell: wsl-bash_Ubuntu-20.04
+        shell: wsl-bash_Ubuntu-20.04 {0}
         run: |
           curl -kfsSL https://deb.nodesource.com/setup_10.x | bash -
           apt-get install -yes nodejs
@@ -59,7 +59,7 @@ jobs:
           npm install
           npm run extract:s2ma
           npm run rename
-        shell: wsl-bash_Ubuntu-20.04
+        shell: wsl-bash_Ubuntu-20.04 {0}
       - name: Push Changes to Github
         run: |
           $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
