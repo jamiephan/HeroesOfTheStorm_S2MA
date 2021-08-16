@@ -1,5 +1,6 @@
 name: Automatically Fetch S2MA Files
 on:
+  push:
   workflow_dispatch:
 jobs:
   auto-fetch:
