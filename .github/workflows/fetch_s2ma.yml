@@ -14,11 +14,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
       - name: Download and Install Battle.net
         run: |
           Invoke-WebRequest -Uri "https://us.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe" -OutFile "C:\Battle.net-Setup.exe"
           Cscript.exe "./.github/workflows/install_bnet.vbs" //nologo
           Get-Process | Where {$_.MainWindowTitle} | Select-Object ProcessName, MainWindowTitle
+
       - name: Installing Heroes Of the Storm
         run: |
           Invoke-WebRequest -Uri "https://github.com/jamiephan/Battle.Net-Installer/releases/latest/download/BNetInstaller.exe" -OutFile "C:\BNetInstaller.exe"
@@ -28,38 +30,25 @@ jobs:
         with:
           distribution: Ubuntu-20.04
           additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
-      - name: Setup WSL Environment
+
+      - name: Installing Nodejs 10 in WSL
         shell: wsl-bash_Ubuntu-20.04 {0}
         run: |
           curl -kfsSL https://deb.nodesource.com/setup_10.x | bash -
           apt-get install -y nodejs
-          node -v
-          npm -v
 
-      # - name: Setup WSL Environment
-      #   run: |
-      #     echo "export PATH=`echo $PATH | tr ':' '\n' | grep -v /mnt/ | tr '\n' ':'`" >> ~/.bashrc
-      #     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-      #   shell: bash
-      # - name: Terminate WSL (refresh)
-      #   run: |
-      #     wslconfig /terminate Debian
-      # - name: Setup WSL Node10
-      #   run: |
-      #     export NVM_DIR="$HOME/.nvm"
-      #     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      #     nvm install 10
-      #     node -v
-      #     npm -v
-      #   shell: bash
-      - name: Updating S2MA with downloaded game files
+      - name: Running "npm run extract:s2ma"
         run: |
           echo "HEROES_OF_THE_STORM_INSTALL_LOCATION=/mnt/c/hero/" > .env
           echo "TOOLS_S2MA_SAVE_LOCATION=./s2ma" >> .env
           npm install
           npm run extract:s2ma
-          npm run rename
         shell: wsl-bash_Ubuntu-20.04 {0}
+
+      - name: Running "npm run rename"
+        run: |
+          npm run rename
+
       - name: Push Changes to Github
         run: |
           $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
