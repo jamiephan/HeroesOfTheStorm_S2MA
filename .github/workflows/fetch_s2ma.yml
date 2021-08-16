@@ -36,7 +36,7 @@ jobs:
         shell: bash
       - name: Terminate WSL (refresh)
         run: |
-          wsl --terminate Debian
+          wslconfig /terminate Debian
       - name: Setup WSL Node10
         run: |
           export NVM_DIR="$HOME/.nvm"
@@ -47,7 +47,7 @@ jobs:
         shell: bash
       - name: Terminate WSL (refresh)
         run: |
-          wsl --terminate Debian
+          wslconfig /terminate Debian
       - name: Updating S2MA with downloaded game files
         run: |
           git checkout workflow-fetch
