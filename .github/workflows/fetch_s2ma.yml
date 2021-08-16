@@ -26,21 +26,20 @@ jobs:
       - name: Setup WSL
         uses: Vampire/setup-wsl@v1
         with:
-          distribution: Ubuntu-18.04
+          # distribution: Ubuntu-18.04
           additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
-      - shell: wsl-bash {0}
+
+      - name: Setup WSL Environment
         run: |
           echo "export PATH=`echo $PATH | tr ':' '\n' | grep -v /mnt/ | tr '\n' ':'`" >> ~/.bashrc
-      - shell: wsl-bash {0}
-        run: |
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
           export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
           [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-      - shell: wsl-bash {0}
-        run: |
+          source ~/.bashrc
           nvm install 10
           node -v
           npm -v
+        shell: wsl
       - name: Updating S2MA with downloaded game files
         run: |
           git checkout workflow-fetch
