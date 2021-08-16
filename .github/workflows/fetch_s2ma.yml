@@ -1,7 +1,7 @@
 name: Automatically Fetch S2MA Files
 on:
   push:
-    branches: 
+    branches:
       - "*"
 jobs:
   auto-fetch:
@@ -15,5 +15,8 @@ jobs:
           pwd
           ls
           Invoke-WebRequest -Uri "https://us.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe" -OutFile "C:\Battle.net-Setup.exe"
+          sleep 5
+          Cscript.exe "./.github/workflows/fakeinstall_vbs.vbs" //nologo
           sleep 10
+          ls "C:/"
           Get-Process
