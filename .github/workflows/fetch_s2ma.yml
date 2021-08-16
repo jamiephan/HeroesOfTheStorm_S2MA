@@ -41,10 +41,15 @@ jobs:
           npm -v
       - name: Updating S2MA with downloaded game files
         run: |
-          $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
+          git checkout workflow-fetch
           New-Item -Path . -Name ".env" -ItemType "file" -Value "HEROES_OF_THE_STORM_INSTALL_LOCATION=`"/mnt/c/hero/`"`nTOOLS_S2MA_SAVE_LOCATION=`"./s2ma`""
           npm run extract:s2ma
           npm run rename
       - name: Push Changes to Github
         run: |
+          $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
           git status
+          git config --global user.name 'Jamie Phan'
+          git config --global user.email '9488815+jamiephan@users.noreply.github.com'
+          git commit -am "Updated Files to $gameVersion"
+          git push origin workflow-fetch
