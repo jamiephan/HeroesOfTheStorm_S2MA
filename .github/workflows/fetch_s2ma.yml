@@ -33,15 +33,21 @@ jobs:
         run: |
           echo "export PATH=`echo $PATH | tr ':' '\n' | grep -v /mnt/ | tr '\n' ':'`" >> ~/.bashrc
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-          export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
         shell: bash
+      - name: Terminate WSL (refresh)
+        run: |
+          wsl --terminate Debian
       - name: Setup WSL Node10
         run: |
+          export NVM_DIR="$HOME/.nvm"
+          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
           nvm install 10
           node -v
           npm -v
         shell: bash
+      - name: Terminate WSL (refresh)
+        run: |
+          wsl --terminate Debian
       - name: Updating S2MA with downloaded game files
         run: |
           git checkout workflow-fetch
