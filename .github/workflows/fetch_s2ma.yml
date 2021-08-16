@@ -1,0 +1,59 @@
+name: Automatically Fetch S2MA Files
+on:
+  push:
+    branches:
+      - "*"
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  auto-fetch-s2ma:
+    name: Automatically Fetch S2MA Files
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Download and Install Battle.net
+        run: |
+          Invoke-WebRequest -Uri "https://us.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe" -OutFile "C:\Battle.net-Setup.exe"
+          Cscript.exe "./.github/workflows/install_bnet.vbs" //nologo
+          Get-Process | Where {$_.MainWindowTitle} | Select-Object ProcessName, MainWindowTitle
+
+      - name: Installing Heroes Of the Storm
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/jamiephan/Battle.Net-Installer/releases/latest/download/BNetInstaller.exe" -OutFile "C:\BNetInstaller.exe"
+          & "C:\BNetInstaller.exe" --prod "hero" --lang "enus" --dir "C:/hero"
+      - name: Setup WSL
+        uses: Vampire/setup-wsl@v1
+        with:
+          distribution: Ubuntu-20.04
+          additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
+
+      - name: Installing Nodejs 10 in WSL
+        shell: wsl-bash_Ubuntu-20.04 {0}
+        run: |
+          curl -kfsSL https://deb.nodesource.com/setup_10.x | bash -
+          apt-get install -y nodejs
+
+      - name: Running "npm run extract:s2ma"
+        run: |
+          echo "HEROES_OF_THE_STORM_INSTALL_LOCATION=/mnt/c/hero/" > .env
+          echo "TOOLS_S2MA_SAVE_LOCATION=./s2ma" >> .env
+          npm install
+          npm run extract:s2ma
+        shell: wsl-bash_Ubuntu-20.04 {0}
+
+      - name: Running "npm run rename"
+        run: |
+          npm run rename
+
+      - name: Push Changes to Github
+        run: |
+          $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
+          git config --global user.name 'Jamie Phan'
+          git config --global user.email '9488815+jamiephan@users.noreply.github.com'
+          git add .
+          git commit -m "Updated Files to $gameVersion"
+          git push
