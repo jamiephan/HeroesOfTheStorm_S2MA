@@ -17,5 +17,5 @@ jobs:
           Get-Process | Where {$_.MainWindowTitle} | Select-Object ProcessName, MainWindowTitle
       - name: Installing Heroes Of the Storm
         run: |
-          Invoke-WebRequest -Uri "https://github.com/barncastle/Battle.Net-Installer/releases/latest/download/BNetInstaller.exe" -OutFile "C:\BNetInstaller.exe"
+          Invoke-WebRequest -Uri "https://github.com/jamiephan/Battle.Net-Installer/releases/latest/download/BNetInstaller.exe" -OutFile "C:\BNetInstaller.exe"
           & "C:\BNetInstaller.exe" --prod "hero" --lang "enus" --dir "C:/hero"
