@@ -56,6 +56,7 @@ jobs:
         run: |
           git checkout workflow-fetch
           New-Item -Path . -Name ".env" -ItemType "file" -Value "HEROES_OF_THE_STORM_INSTALL_LOCATION=`"/mnt/c/hero/`"`nTOOLS_S2MA_SAVE_LOCATION=`"./s2ma`""
+          npm install
           npm run extract:s2ma
           npm run rename
         shell: wsl-bash_Ubuntu-20.04
