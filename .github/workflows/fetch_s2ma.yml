@@ -31,7 +31,7 @@ jobs:
       - name: Setup WSL Environment
         shell: wsl-bash {0}
         run: |
-          curl -fsSL https://deb.nodesource.com/setup_10.x | bash -
+          curl -kfsSL https://deb.nodesource.com/setup_10.x | bash -
           apt-get install -yes nodejs
           node -v
           npm -v
