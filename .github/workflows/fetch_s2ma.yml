@@ -19,3 +19,17 @@ jobs:
         run: |
           Invoke-WebRequest -Uri "https://github.com/jamiephan/Battle.Net-Installer/releases/latest/download/BNetInstaller.exe" -OutFile "C:\BNetInstaller.exe"
           & "C:\BNetInstaller.exe" --prod "hero" --lang "enus" --dir "C:/hero"
+      - name: Setup WSL
+        uses: Vampire/setup-wsl@v1
+        with:
+          distribution: Ubuntu-18.04
+          additional-packages: cmake libbz2-dev zlib1g-dev python build-essential
+      - name: Updating S2MA with downloaded game files
+        run: |
+          $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
+          New-Item -Path . -Name ".env" -ItemType "file" -Value "HEROES_OF_THE_STORM_INSTALL_LOCATION=`"/mnt/c/hero/`"`nTOOLS_S2MA_SAVE_LOCATION=`"./s2ma`""
+          npm run extract:s2ma
+          npm run rename
+      - name: Push Changes to Github
+        run: |
+          git status
