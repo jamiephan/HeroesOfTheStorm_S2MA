@@ -12,11 +12,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Download and "fake" installing battlenet
         run: |
-          # pwd
-          # ls
           Invoke-WebRequest -Uri "https://us.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe" -OutFile "C:\Battle.net-Setup.exe"
-          sleep 5
           Cscript.exe "./.github/workflows/fakeinstall_vbs.vbs" //nologo
-          sleep 10
-          # ls "C:/"
-          Get-Process
+          Get-Process | Where {$_.MainWindowTitle} | Select-Object ProcessName, MainWindowTitle
