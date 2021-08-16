@@ -13,3 +13,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Download and "fake" installing battlenet
+        run: |
+          pwd
+          ls
+          Invoke-WebRequest -Uri "https://us.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe" -OutFile "C:\Battle.net-Setup.exe"
+          sleep 10
+          Get-Process
