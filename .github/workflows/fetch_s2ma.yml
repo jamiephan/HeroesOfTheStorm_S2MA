@@ -29,7 +29,7 @@ jobs:
           # distribution: Ubuntu-18.04
           additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
       - name: Setup WSL Environment
-        shell: wsl-bash
+        shell: wsl-bash {0}
         run: |
           curl -fsSL https://deb.nodesource.com/setup_10.x | bash -
           apt-get install -yes nodejs
