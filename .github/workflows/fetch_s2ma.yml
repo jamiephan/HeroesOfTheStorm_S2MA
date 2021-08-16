@@ -10,8 +10,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Download and "fake" installing battlenet
+      - name: Download and Install Battle.net
         run: |
           Invoke-WebRequest -Uri "https://us.battle.net/download/getInstaller?os=win&installer=Battle.net-Setup.exe" -OutFile "C:\Battle.net-Setup.exe"
-          Cscript.exe "./.github/workflows/fakeinstall_vbs.vbs" //nologo
+          Cscript.exe "./.github/workflows/install_bnet.vbs" //nologo
           Get-Process | Where {$_.MainWindowTitle} | Select-Object ProcessName, MainWindowTitle
+      - name: Installing Heroes Of the Storm
+        run: |
+          Invoke-WebRequest -Uri "https://github.com/barncastle/Battle.Net-Installer/releases/latest/download/BNetInstaller.exe" -OutFile "C:\BNetInstaller.exe"
+          & "C:\BNetInstaller.exe" --prod "hero" --lang "enus" --dir "C:/hero"
