@@ -1,0 +1,10 @@
+name: Automatically Fetch S2MA Files
+on:
+  workflow_dispatch:
+jobs:
+  auto-fetch:
+    name: Automatically Fetch S2MA Files
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
