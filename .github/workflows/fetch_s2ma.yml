@@ -28,26 +28,30 @@ jobs:
         with:
           # distribution: Ubuntu-18.04
           additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
-
       - name: Setup WSL Environment
+        shell: wsl-bash
         run: |
-          echo "export PATH=`echo $PATH | tr ':' '\n' | grep -v /mnt/ | tr '\n' ':'`" >> ~/.bashrc
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
-        shell: bash
-      - name: Terminate WSL (refresh)
-        run: |
-          wslconfig /terminate Debian
-      - name: Setup WSL Node10
-        run: |
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
-          nvm install 10
+          curl -fsSL https://deb.nodesource.com/setup_10.x | bash -
+          apt-get install -yes nodejs
           node -v
           npm -v
-        shell: bash
-      - name: Terminate WSL (refresh)
-        run: |
-          wslconfig /terminate Debian
+
+      # - name: Setup WSL Environment
+      #   run: |
+      #     echo "export PATH=`echo $PATH | tr ':' '\n' | grep -v /mnt/ | tr '\n' ':'`" >> ~/.bashrc
+      #     curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+      #   shell: bash
+      # - name: Terminate WSL (refresh)
+      #   run: |
+      #     wslconfig /terminate Debian
+      # - name: Setup WSL Node10
+      #   run: |
+      #     export NVM_DIR="$HOME/.nvm"
+      #     [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+      #     nvm install 10
+      #     node -v
+      #     npm -v
+      #   shell: bash
       - name: Updating S2MA with downloaded game files
         run: |
           git checkout workflow-fetch
