@@ -1,11 +1,8 @@
 name: Automatically Fetch S2MA Files
 on:
-  workflow_dispatch:
-    inputs:
-      msg:
-        description: "Manual Trigger"
-        required: false
-        default: "Hello"
+  push:
+    branches: 
+      - "*"
 jobs:
   auto-fetch:
     name: Automatically Fetch S2MA Files
