@@ -8,7 +8,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  auto-fetch:
+  auto-fetch-s2ma:
     name: Automatically Fetch S2MA Files
     runs-on: windows-latest
     steps:
@@ -56,4 +56,4 @@ jobs:
           git config --global user.email '9488815+jamiephan@users.noreply.github.com'
           git add .
           git commit -m "Updated Files to $gameVersion"
-          git push origin workflow-fetch
+          git push
