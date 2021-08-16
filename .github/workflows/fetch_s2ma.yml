@@ -26,10 +26,10 @@ jobs:
       - name: Setup WSL
         uses: Vampire/setup-wsl@v1
         with:
-          # distribution: Ubuntu-18.04
+          distribution: Ubuntu-20.04
           additional-packages: cmake libbz2-dev zlib1g-dev python build-essential curl
       - name: Setup WSL Environment
-        shell: wsl-bash {0}
+        shell: wsl-bash_Ubuntu-20.04
         run: |
           curl -kfsSL https://deb.nodesource.com/setup_10.x | bash -
           apt-get install -yes nodejs
@@ -58,7 +58,7 @@ jobs:
           New-Item -Path . -Name ".env" -ItemType "file" -Value "HEROES_OF_THE_STORM_INSTALL_LOCATION=`"/mnt/c/hero/`"`nTOOLS_S2MA_SAVE_LOCATION=`"./s2ma`""
           npm run extract:s2ma
           npm run rename
-        shell: wsl-bash {0}
+        shell: wsl-bash_Ubuntu-20.04
       - name: Push Changes to Github
         run: |
           $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
