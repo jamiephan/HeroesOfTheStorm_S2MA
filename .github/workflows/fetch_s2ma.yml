@@ -54,5 +54,6 @@ jobs:
           $gameVersion = [regex]::match($(Get-Content "C:/hero/.build.info"), "\|\|\|(.*)").Groups[1].Value
           git config --global user.name 'Jamie Phan'
           git config --global user.email '9488815+jamiephan@users.noreply.github.com'
-          git commit -am "Updated Files to $gameVersion"
+          git add .
+          git commit -m "Updated Files to $gameVersion"
           git push origin workflow-fetch
