@@ -23,8 +23,8 @@ Now, it will act as a main hosting repo for all the `*.s2ma` files.
 - Automatically detect whether its a map or mod file.
 - Automatically rename the mod/map file, so its much easier to find the file you want
 - Automatically Generate [`TABLE.md`](TABLE.md) that index all the `*.s2ma` files
-- A CI have been setup to automatically detect whether changes of `*.s2ma` file occurs, and will push it to this repo accordingly.
-  - (Due to rate limit on Blizzard's Server for downloading the game, it will only run once every day on midnight)
+- [A Github Action have been setup](https://github.com/jamiephan/HeroesOfTheStorm_S2MA/actions) to fetch the latest `*.s2ma` files from a fresh Heroes of the Storm installation game files automatically everyday.
+  - (If you want to do something similar, you can have a look [`fetch_s2ma.yml`](https://github.com/jamiephan/HeroesOfTheStorm_S2MA/blob/main/.github/workflows/fetch_s2ma.yml) file. It took me a while to figure it how to do it. Also due to rate limits, it is recommended to not download the game files more than once 30 minutes regularly, or Blizzard's server may temporarily block the connection.)
 
 ## Directories
 
