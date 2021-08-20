@@ -13,7 +13,7 @@ In Heroes, there are two type of *.s2ma:
 
 ## Why?
 
-Originally, this repo was only act as a hosting for map files for [Try Mode 2.0](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0). It will inject the custom made files/data to the maps and creates a [Github Release](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0/releases). 
+Originally, this repo was only act as a hosting map files for [Try Mode 2.0](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0). It will inject the custom made files/data to the maps and creates a [Github Release](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0/releases) for downloads. 
 
 Now, it will act as a main hosting repo for all the `*.s2ma` files.
 
