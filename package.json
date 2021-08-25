@@ -4,10 +4,9 @@
     "description": "Extract S2MAs",
     "main": "index.js",
     "scripts": {
-        "start": "npm run extract:s2ma && npm run rename:maps && npm run commitpush",
+        "start": "npm run extract:s2ma && npm run rename",
         "extract:s2ma": "bash -c -i \"node ./scripts/main/extracts2ma.js\"",
-        "rename": "powershell -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -File renamer.ps1",
-        "commitpush": "cmd /c git add -A && cmd /c git commit -m \"Updated S2MAs _ %random%\" && cmd /c git push"
+        "rename": "powershell -NoLogo -NoProfile -NonInteractive -WindowStyle Hidden -File renamer.ps1"
     },
     "repository": {
         "type": "git",
