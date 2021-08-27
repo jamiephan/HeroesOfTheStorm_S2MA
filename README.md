@@ -43,3 +43,8 @@ Now, it will act as a main hosting repo for all the `*.s2ma` files.
 - `npm run extract:s2ma`: Extract all `*.s2ma` files from Heroes of the Storm (Prerequisite please see: https://jamiephan.github.io/HeroesOfTheStorm_TryMode2.0/tools.html)
 - `npm run rename`: Rename, copy the `*.s2ma` files to its respective directory and generate [`TABLE.md`](TABLE.md). (Windows Only)
 
+## AI in Maps:
+
+To keep this repo clean and *pure*, all the `*.s2ma` file are unmodified, therefore if you load one of the maps, it will not have any AI included.
+
+If you want AI in the game, please visit [jamiephan/HeroesOfTheStorm_AIMaps](https://github.com/jamiephan/HeroesOfTheStorm_AIMaps). This repo will generate various of AI configurations and map files were based on this repo.
