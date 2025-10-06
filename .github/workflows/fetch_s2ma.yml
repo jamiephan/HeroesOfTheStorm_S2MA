@@ -20,7 +20,7 @@ jobs:
 
       - name: Installing Heroes Of the Storm
         run: |
-          Invoke-WebRequest -Uri "https://github.com/jamiephan/Battle.Net-Installer/releases/latest/download/BNetInstaller.exe" -OutFile "C:\BNetInstaller.exe"
+          Invoke-WebRequest -Uri "https://github.com/redact7/bnetinstaller/releases/latest/download/bnetinstaller.exe.exe" -OutFile "C:\BNetInstaller.exe"
           & "C:\BNetInstaller.exe" --prod "hero" --lang "enus" --dir "C:/hero"
       - name: Setup WSL
         uses: Vampire/setup-wsl@v1
