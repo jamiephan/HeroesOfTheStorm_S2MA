@@ -13,6 +13,10 @@ jobs:
         uses: actions/checkout@v6
       - name: Setup Node.js
         uses: actions/setup-node@v6
+      - name: git config
+        run: |
+          git config --global user.name 'Jamie Phan'
+          git config --global user.email '9488815+jamiephan@users.noreply.github.com'
       - name: Running "npm run ci"
         run: |
           npm install

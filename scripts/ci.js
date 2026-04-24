@@ -29,6 +29,7 @@ const EXTRA_MAP_CASC_PATHS = [
 // -- Helpers --
 
 function resetDir(dir) {
+  console.log(`Resetting directory: ${dir}`);
   fs.rmSync(dir, { recursive: true, force: true });
   fs.mkdirSync(dir);
 }
@@ -62,14 +63,21 @@ function addFileToArchive(archive, archivePath, data) {
 // -- Extraction --
 
 function extractS2maFiles(storage) {
+  console.log("Extracting *.s2ma files...");
+  let count = 0;
   for (const { fileName } of iterateCascFind(storage, "*.s2ma")) {
+    console.log(`  Extracting: ${fileName}`);
     const data = readCascFile(storage, fileName);
     fs.writeFileSync(path.join(EXTRACTED_DIR, path.basename(fileName)), data);
+    count++;
   }
+  console.log(`Extracted ${count} s2ma file(s).`);
 }
 
 function extractExtraMaps(storage) {
+  console.log("Extracting extra maps...");
   for (const cascDir of EXTRA_MAP_CASC_PATHS) {
+    console.log(`  Processing: ${cascDir}`);
     const archivePath = path.join(EXTRA_MAPS_DIR, path.basename(cascDir));
     const archive = new Archive();
     archive.create(archivePath);
@@ -96,7 +104,9 @@ function extractExtraMaps(storage) {
     // Rename the archive to include the mod name for easier classification later
     const newArchivePath = path.join(EXTRA_MAPS_DIR, `${modName}${MAP_FILE_EXTENSION}`);
     fs.renameSync(archivePath, newArchivePath);
+    console.log(`  Saved extra map as: ${modName}${MAP_FILE_EXTENSION}`);
   }
+  console.log("Extra maps extraction complete.");
 }
 
 function commitChanges() {
@@ -133,9 +143,13 @@ function commitChanges() {
   console.log(`Game version: ${gameVersion}`);
 
   // Commit with message "Updated Files to ${gameVersion}"
-  execSync(`git add .`);
-  execSync(`git commit -m "Updated Files to ${gameVersion}"`);
-  execSync(`git push`);
+  console.log("Staging changes...");
+  execSync(`git add .`, { stdio: "inherit" });
+  console.log(`Committing: "Updated Files to ${gameVersion}"`);
+  execSync(`git commit -m "Updated Files to ${gameVersion}"`, { stdio: "inherit"});
+  console.log("Pushing to remote...");
+  execSync(`git push`, { stdio: "inherit" });
+  console.log("Changes pushed successfully.");
 
 }
 
@@ -160,6 +174,7 @@ function getModName(archive, fileName) {
 }
 
 function classifyAndCopyFiles() {
+  console.log("Classifying and copying files...");
   const fileMapping = [];
 
   for (const fileName of fs.readdirSync(EXTRACTED_DIR)) {
@@ -169,6 +184,7 @@ function classifyAndCopyFiles() {
     try {
       archive.open(filePath);
     } catch {
+      console.warn(`  Could not open archive: ${fileName} (skipping)`);
       fileMapping.push({ fileName, modName: null, type: "other" });
       continue;
     }
@@ -178,10 +194,16 @@ function classifyAndCopyFiles() {
     const ext = type === "map" ? MAP_FILE_EXTENSION : MOD_FILE_EXTENSION;
     const destDir = type === "map" ? MAPS_DIR : MODS_DIR;
 
+    console.log(`  [${type}] ${fileName} -> ${modName}${ext}`);
     fileMapping.push({ fileName, modName, type });
     fs.copyFileSync(filePath, path.join(destDir, `${modName}${ext}`));
     archive.close();
   }
+
+  const maps = fileMapping.filter((e) => e.type === "map").length;
+  const mods = fileMapping.filter((e) => e.type === "mod").length;
+  const others = fileMapping.filter((e) => e.type === "other").length;
+  console.log(`Classification complete: ${maps} map(s), ${mods} mod(s), ${others} other(s).`);
 
   return fileMapping;
 }
@@ -309,13 +331,17 @@ ${nullTableRows}
 // -- Main --
 
 function main() {
+  console.log("Starting CI process...");
+
   resetDir(EXTRACTED_DIR);
   resetDir(MAPS_DIR);
   resetDir(MODS_DIR);
   resetDir(EXTRA_MAPS_DIR);
 
+  console.log(`Opening CASC storage at: ${CASC_CACHE_DIR}*hero`);
   const storage = new Storage();
   storage.openOnline(`${CASC_CACHE_DIR}*hero`);
+  console.log("CASC storage opened.");
 
   extractS2maFiles(storage);
   extractExtraMaps(storage);
