@@ -1,50 +1,50 @@
 # HeroesOfTheStorm_S2MA
-A repo to host `*.s2ma` files from Heroes of the Storm
+A repository for hosting Heroes of the Storm `*.s2ma` files.
 
 ## What is `*.s2ma`?
-This repo host all the `*.s2ma` files from Heroes of the Storm. `*.s2ma` are mostly in a [MPQ format](http://www.zezula.net/en/mpq/mpqformat.html) that can be viewed/edit via [MPQ Editor](http://www.zezula.net/en/mpq/download.html). Due to it is just an MPQ file, it can be loaded into the game easily just like other mods and maps.
+This repo hosts the `*.s2ma` files from Heroes of the Storm. Most `*.s2ma` files use the [MPQ format](http://www.zezula.net/en/mpq/mpqformat.html) and can be viewed or edited with [MPQ Editor](http://www.zezula.net/en/mpq/download.html). Because they are MPQ files, they can be loaded into the game much like other mods and maps.
 
-In Heroes, there are two type of *.s2ma: 
+In Heroes, there are three types of `*.s2ma` content:
 
- - Mods: Which are `*.stormmod`, can be included by other mods or maps
- - Maps: Which are `*.stormmap`, can be run directly or side loaded into the game by replacing single player maps
+- Mods: `*.stormmod` files that can be included by other mods or maps.
+- Maps: `*.stormmap` files that can be run directly or side-loaded into the game by replacing single-player maps.
+- Text: Metadata files, which are probably less useful (`null` type in [`TABLE.md`](TABLE.md)).
 
-> If you would like to run the map in [./maps](maps), please refer to https://jamiephan.github.io/HeroesOfTheStorm_TryMode2.0/install.html 
+> If you want to run a map from [./maps](maps), see https://jamiephan.github.io/HeroesOfTheStorm_TryMode2.0/install.html
 
 ## Why?
 
-Originally, this repo was only act as a hosting map files for [Try Mode 2.0](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0). It will inject the custom made files/data to the maps and creates a [Github Release](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0/releases) for downloads. 
+Originally, this repo only served as a hosting repository for [Try Mode 2.0](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0). That project injects custom files and data into maps and publishes them through [GitHub Releases](https://github.com/jamiephan/HeroesOfTheStorm_TryMode2.0/releases).
 
-Now, it will act as a main hosting repo for all the `*.s2ma` files.
+Now it serves as the main hosting repo for all `*.s2ma` files.
 
 ## Features
 
-- Hosting all the `*.s2ma` files from Heroes of the Storm
-- Automatically detect whether its a map or mod file.
-- Automatically rename the mod/map file, so its much easier to find the file you want
-- Automatically Generate [`TABLE.md`](TABLE.md) that index all the `*.s2ma` files
-- [A Github Action have been setup](https://github.com/jamiephan/HeroesOfTheStorm_S2MA/actions) to fetch the latest `*.s2ma` files from a fresh Heroes of the Storm installation game files automatically everyday.
-  - (If you want to do something similar, you can have a look [`fetch_s2ma.yml`](https://github.com/jamiephan/HeroesOfTheStorm_S2MA/blob/main/.github/workflows/fetch_s2ma.yml) file. It took me a while to figure it how to do it. Also due to rate limits, it is recommended to not download the game files more than once 30 minutes regularly, or Blizzard's server may temporarily block the connection.)
+- Hosts all `*.s2ma` files from Heroes of the Storm.
+- Automatically detects whether a file is a map or a mod.
+- Automatically renames mod and map files so they are easier to identify.
+- Automatically generates [`TABLE.md`](TABLE.md), which indexes all `*.s2ma` files.
+- [A GitHub Action is set up](https://github.com/jamiephan/HeroesOfTheStorm_S2MA/actions) to fetch the latest `*.s2ma` files from a fresh Heroes of the Storm installation every 4 hours.
+  - If you want to do something similar, take a look at [`ci.js`](https://github.com/jamiephan/HeroesOfTheStorm_S2MA/blob/main/scripts/ci.js). It uses my [bindings for CASCLib and StormLib](https://github.com/jamiephan/casclib-stormlib-monorepo) to run natively.
 
 ## Directories
 
-- [`./s2ma`](s2ma): All the `*.s2ma` files extracted from Heroes of the Storm, via the `npm run extract:s2ma` command.
-- [`./mods`](mods): All the `*.stormmod` files, copied renamed from the s2ma files above.
-- [`./maps`](maps): All the `*.stormmap` files, copied renamed from the s2ma files above.
-- [`./extra_maps`](extra_maps): Extra maps from the `mods/heroes.stormmod/base.stormmaps/maps`, which was compiled manually and not present in the `*.s2ma` files.
+- [`./s2ma`](s2ma): All the `*.s2ma` files extracted from Heroes of the Storm, via the `npm run ci` command.
+- [`./mods`](mods): All the `*.stormmod` files, copied and renamed from the s2ma files above.
+- [`./maps`](maps): All the `*.stormmap` files, copied and renamed from the s2ma files above.
+- [`./extra_maps`](extra_maps): Extra maps from `mods/heroes.stormmod/base.stormmaps/maps`, compiled with [@jamiephan/stormlib](https://github.com/jamiephan/casclib-stormlib-monorepo/tree/master/packages/stormlib) and not present in the `*.s2ma` files.
 
-## Documentations:
+## Documentation
 
 - [`README.md`](README.md): This README file.
-- [`TABLE.md`](TABLE.md): Generated documentation that shows which `*.s2ma` files are corresponding to which map/mod file.
+- [`TABLE.md`](TABLE.md): Generated documentation showing which `*.s2ma` files correspond to which map or mod file.
 
-## Tools:
+## Tools
 
-- `npm run extract:s2ma`: Extract all `*.s2ma` files from Heroes of the Storm (Prerequisite please see: https://jamiephan.github.io/HeroesOfTheStorm_TryMode2.0/tools.html)
-- `npm run rename`: Rename, copy the `*.s2ma` files to its respective directory and generate [`TABLE.md`](TABLE.md). (Windows Only)
+- `npm run ci`: Extracts all `*.s2ma` files from Heroes of the Storm, categorizes them by type, and renames them to make them easier to identify.
 
-## AI in Maps:
+## AI in Maps
 
-To keep this repo clean and *pure*, all the `*.s2ma` file are unmodified, therefore if you load one of the maps, it will not have any AI included.
+To keep this repo clean and pure, all `*.s2ma` files are unmodified. If you load one of these maps, it will not include any AI.
 
-If you want AI in the game, please visit [jamiephan/HeroesOfTheStorm_AIMaps](https://github.com/jamiephan/HeroesOfTheStorm_AIMaps). This repo will generate various of AI configurations and map files were based on this repo.
+If you want AI in the game, visit [jamiephan/HeroesOfTheStorm_AIMaps](https://github.com/jamiephan/HeroesOfTheStorm_AIMaps). That repo generates various AI configurations and map files based on this repo.
