@@ -15,4 +15,5 @@ jobs:
         uses: actions/setup-node@v6
       - name: Running "npm run ci"
         run: |
+          npm install
           npm run ci
