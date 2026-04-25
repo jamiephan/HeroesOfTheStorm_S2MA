@@ -357,6 +357,13 @@ function main() {
   fs.writeFileSync(tablePath, generateTableMd(fileMapping), "utf8");
   console.log(`Generated TABLE.md at ${tablePath}`);
 
+  // Copy all files map files from extra_maps to maps for easier access
+  for (const fileName of fs.readdirSync(EXTRA_MAPS_DIR)) {
+    const srcPath = path.join(EXTRA_MAPS_DIR, fileName);
+    const destPath = path.join(MAPS_DIR, fileName);
+    fs.copyFileSync(srcPath, destPath);
+  }
+
   commitChanges();
 }
 
