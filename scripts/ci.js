@@ -89,7 +89,9 @@ function extractExtraMaps(storage) {
       if (relPath.replace(/\\/g, "/") === GAMESTRINGS_PATH) {
         const match = data.toString().match(/DocInfo\/Name=(.+)/);
         if (match?.[1]) {
-          modName = match[1].trim();
+          modName = match[1].trim()
+          // Remove non file name friendly characters
+            .replace(/[\/\\?%*:|"<>]/g, "");
         } else {
           console.warn(`Warning: ${cascDir} has gamestrings.txt but could not find mod name`);
         }
@@ -166,7 +168,9 @@ function getModName(archive, fileName) {
 
   const match = data.toString().match(/DocInfo\/Name=(.+)/);
   if (match?.[1]) {
-    return match[1].trim();
+    return match[1].trim()
+      // Remove non file name friendly characters
+      .replace(/[\/\\?%*:|"<>]/g, "");
   }
 
   console.warn(`Warning: ${fileName} has gamestrings.txt but could not find mod name`);
